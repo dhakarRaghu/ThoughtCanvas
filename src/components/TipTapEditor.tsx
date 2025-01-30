@@ -29,22 +29,9 @@ const TipTapEditor = ({ note }: Props) => {
       return response.data;
     },
   });
-  const customText = Text.extend({
-    addKeyboardShortcuts() {
-      return {
-        "Shift-a": () => {
-          // take the last 30 words
-          const prompt = this.editor.getText().split(" ").slice(-30).join(" ");
-          complete(prompt);
-          return true;
-        },
-      };
-    },
-  });
-
   const editor = useEditor({
     autofocus: true,
-    extensions: [StarterKit, customText],
+    extensions: [StarterKit],
     content: editorState,
     onUpdate: ({ editor }) => {
       setEditorState(editor.getHTML());
@@ -59,7 +46,7 @@ const TipTapEditor = ({ note }: Props) => {
     editor.commands.insertContent(diff);
   }, [completion, editor]);
 
-  const debouncedEditorState = useDebounce(editorState, 500);  // 500ms debounce so it 
+  const debouncedEditorState = useDebounce(editorState, 500);
   React.useEffect(() => {
     // save to db
     if (debouncedEditorState === "") return;
@@ -77,7 +64,7 @@ const TipTapEditor = ({ note }: Props) => {
       <div className="flex">
         {editor && <TipTapMenuBar editor={editor} />}
         <Button disabled variant={"outline"}>
-          {saveNote.isPending ? "Saving..." : "Saved"}
+          {saveNote.isPending? "Saving..." : "Saved"}
         </Button>
       </div>
 
@@ -85,13 +72,6 @@ const TipTapEditor = ({ note }: Props) => {
         <EditorContent editor={editor} />
       </div>
       <div className="h-4"></div>
-      <span className="text-sm">
-        Tip: Press{" "}
-        <kbd className="px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">
-          Shift + A
-        </kbd>{" "}
-        for AI autocomplete
-      </span>
     </>
   );
 };

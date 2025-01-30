@@ -1,3 +1,4 @@
+import DeleteButton from '@/components/deleteButton';
 import TipTapEditor from '@/components/TipTapEditor';
 import { Button } from '@/components/ui/button';
 import { getUser } from '@/lib/clerk-server';
@@ -10,12 +11,10 @@ import { redirect } from 'next/navigation';
 import React from 'react'
 
 type Props = {
-  params: {
-    noteId: string;
-  }
-}
+  params: { noteId: string }; // Ensure you are passing the correct type for noteId
+};
 
-const NotebookPage  = async({params : {noteId}} : Props) => {
+const NotebookPage = async ({ params: { noteId } }: Props)  => {
   const { userId } = await auth();
   if (!userId) {
     return redirect("/dashboard");
@@ -34,7 +33,7 @@ const NotebookPage  = async({params : {noteId}} : Props) => {
 
   return (
     <div>
-      {/* const noteid = {noteId}; */} 
+      {/* const noteid = {noteId};  */}
       {/* return <pre> {JSON.stringify(note,null,2)}</pre> */}
       <div className="min-h-screen grainy p-8">
       <div className="max-w-4xl mx-auto">
@@ -52,7 +51,7 @@ const NotebookPage  = async({params : {noteId}} : Props) => {
           <span className="inline-block mx-1">/</span>
           <span className="text-stone-500 font-semibold">{note.name}</span>
           <div className="ml-auto">
-            {/* <DeleteButton noteId={note.id} /> */}
+            <DeleteButton noteId={note.id} />
           </div>
         </div>
 
