@@ -15,10 +15,10 @@ type Props = {};
 
 const DashboardPage = async (props: Props) => {
   const { userId } = await auth();
-  const notes = await db
-    .select()
+  const notes = await db .select()
     .from($notes)
     .where(eq($notes.userId, userId!));
+
 
   return (
     <>
